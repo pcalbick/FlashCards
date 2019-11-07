@@ -1,0 +1,33 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+.card {
+	-fx-background-color: #f2f7ff;
+	-fx-background-radius: 5px;
+	-fx-border-color: #657da5;
+	-fx-border-radius: 4px;
+	-fx-border-width: 2px;
+}
+
+.correct {
+	-fx-background-color: #c9ffd1;
+	-fx-background-radius: 5px;
+	-fx-border-color: #3cd653;
+	-fx-border-radius: 4px;
+	-fx-border-width: 2px;
+}
+
+.incorrect {
+	-fx-background-color: #f5a2a2;
+	-fx-background-radius: 5px;
+	-fx-border-color: #de4747;
+	-fx-border-radius: 4px;
+	-fx-border-width: 2px;
+}
+
+.warning {
+    -fx-border-style: solid;
+    -fx-border-color: red; 
+    -fx-border-width: 1px;
+    -fx-border-radius: 3px;
+    -fx-border-insets: -1;
+}
