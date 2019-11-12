@@ -23,7 +23,7 @@ public class TagDeleteController {
 	private GridPane item;
 	
 	public void handleYes() {
-		for(CardDataStructure c : model.getObservableList()) {
+		for(CardDataStructure c : model.getMaster()) {
 			for(int i=0; i<c.getTags().size(); i++) {
 				if(c.getTags().get(i).equalsIgnoreCase(itemController.getTag().getText()))
 					c.removeTag(itemController.getTag().getText());

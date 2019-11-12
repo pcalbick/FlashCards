@@ -13,6 +13,7 @@ import javafx.collections.ListChangeListener;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -35,17 +36,9 @@ public class TagsViewController {
 	private CardsModel model;
 	
 	public void handleShowAll() {
-		if(!showAll.getStyleClass().contains("card")) {
-			showAll.getStyleClass().add("card");
-
-			model.getObservableList().clear();
-			
-			for(CardDataStructure c : model.getMaster())
-				model.addToList(c);
-		} else {
-			showAll.getStyleClass().remove("card");
-			
-			model.getObservableList().clear();
+		model.getObservableCards().clear();
+		for(CardDataStructure c : model.getMaster()) {
+			model.addToCards(c);
 		}
 	}
 	
@@ -67,7 +60,6 @@ public class TagsViewController {
 						FXMLLoader loader = new FXMLLoader();
 						loader.setLocation(main.getClass().getResource("view/TagViewItem.fxml"));
 						GridPane tag = (GridPane) loader.load();
-						tag.getStyleClass().add("card");
 						
 						TagItemController controller = loader.getController();
 						controller.setTag(c.getList().get(c.getList().size()-1));
@@ -168,10 +160,6 @@ public class TagsViewController {
 				ExecutorService executor = Executors.newSingleThreadExecutor();
 				
 				if(!tag.getStyleClass().contains("card")) {
-					if(showAll.getStyleClass().contains("card")) {
-						showAll.getStyleClass().remove("card");
-						model.getObservableList().clear();
-					}
 					tag.getStyleClass().add("card");
 
 					Future<List<CardDataStructure>> future = executor.submit(search.getSearch(model.getMaster(), itemController.getTag().getText()));
@@ -179,7 +167,7 @@ public class TagsViewController {
 					try {
 						if(future.get() != null || !future.get().isEmpty()) {
 							for(CardDataStructure c : future.get())
-								model.addToList(c);
+								model.addToTest(c);
 						}
 					} catch (Exception ex) {
 						ex.printStackTrace();
@@ -187,16 +175,15 @@ public class TagsViewController {
 						executor.shutdown();
 					}
 					
-				//THIS IS THE PROBLEM. HELP!!!! SAME-ISH ISSUE WITH SHOW ALL. PHANTOM CARDS KEEP SHOWING UP
 				} else {
 					tag.getStyleClass().remove("card");
 					
-					Future<List<CardDataStructure>> future = executor.submit(search.getSearch(model.getObservableList(), itemController.getTag().getText()));
+					Future<List<CardDataStructure>> future = executor.submit(search.getSearch(model.getTestList(), itemController.getTag().getText()));
 					
 					try {
 						if(future.get() != null || !future.get().isEmpty()) {
 							for(CardDataStructure c : future.get())
-								model.removeCard(c);
+								model.removeFromList(c);
 						}
 					} catch (Exception ex) {
 						ex.printStackTrace();

@@ -1,25 +1,23 @@
 /* TODO
  * 
- * ADD CARD DOES NOT ACTUALLY ADD TO VISIBLE LIST UNLESS SHOW ALL SELECTED?
- * 
- * MOVE TAG PANE TO RIGHT OF BUTTON PANE AND CARD PANE TO RIGHT OF THAT (GRID PANE? ONLY CARD PANE SHOULD EXPAND ON RESIZE)
+ * CHECK ON SAVE, ALOT HAS BEEN ADDED TO THE MODEL
+ * ADD AFTER SEARCH BECOMES PROBLEM
+ * RETHINK UI!!!
+ * ADD SORT
  * 
  * REVAMP BUTTON PANE (WHAT SHOULD BE THERE? MENU BAR INSTEAD?)
  * ADD SAVE AND SAVE AS
  * 
- * PERMANENT TAG OF SHOW ALL AT TOP SELECTED BY DEFAULT
- * CLICK TAG IS SELECT TAG NOT EDIT TAG (BUGGED)
- * 
  * PLAY BUTTON ASKS HOW MANY CARDS YOU WANT TO TEST (DEFAULT TO MAX SELECTED?)
  * REVAMP PLAY SCREEN?
- * 
- * REMOVE SEARCH BAR? KEEP FOR SINGLE CARD SEARCHES?
  * 
  * OBLIGITORY CSS BEAUTIFICATION
  * 
  * REMOVE CARDCONTAINER AND CARDVIEW (OBSOLETE) (CAREFUL DONT FUCK UP THE PROJECT)
  * 
  * ROOT PANE CONTROLLER MIGHT NOT BE NEEDED
+ * 
+ * SAVE ARRAY OF TESTS
  * 
  */
 
@@ -68,7 +66,7 @@ public class Main extends Application {
 			addListPane(rootPane, primaryStage);
 			addTags(rootPane);
 			addButtonPane(rootPane, primaryStage);
-			addSearch(rootPane);
+			//addSearch(rootPane);
 			//addCardContainer(rootPane);
 			
 			Scene scene = new Scene(rootPane);
@@ -91,10 +89,10 @@ public class Main extends Application {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("view/ListPane.fxml"));
-			ScrollPane listPane = (ScrollPane) loader.load();
+			HBox listPane = (HBox) loader.load();
 			
 			listController = loader.getController();
-			listController.init(this, primaryStage, cardsModel, listPane);
+			listController.init(this, primaryStage, cardsModel);
 			
 			rootPane.setCenter(listPane);
 		} catch(Exception e) {
@@ -132,7 +130,7 @@ public class Main extends Application {
 		}
 	}
 	
-	private void addSearch(BorderPane rootPane) {
+	/*private void addSearch(BorderPane rootPane) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("view/SearchView.fxml"));
@@ -145,7 +143,7 @@ public class Main extends Application {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 	
 	/*private void addCardContainer(BorderPane rootPane) {
 		try {

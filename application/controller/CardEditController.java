@@ -70,9 +70,9 @@ public class CardEditController {
 	}
 	
 	public void handleRemove() {
-		removeTags(getTags(),false);
+		//removeTags(getTags(),false);
 		
-		model.removeCard(index);
+		//model.removeCard(index);
 		stage.close();
 	}
 	

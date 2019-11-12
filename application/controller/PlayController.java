@@ -114,7 +114,7 @@ public class PlayController {
 		
 		correct.setVisible(false);
 		
-		cards = (Object[]) model.getObservableList().toArray();
+		cards = (Object[]) model.getTestList().toArray();
 		shuffle(cards);
 		
 		CardDataStructure c = (CardDataStructure) cards[count];

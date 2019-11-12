@@ -34,7 +34,7 @@ public class SearchController {
 		try {
 			if(future.get() != null || !future.get().isEmpty()) {
 				for(CardDataStructure c : future.get())
-					model.addToList(c);
+					model.addToTest(c);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

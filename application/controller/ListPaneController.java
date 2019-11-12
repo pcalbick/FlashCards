@@ -1,18 +1,24 @@
 package application.controller;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import application.Main;
+import application.Search;
 import application.model.CardDataStructure;
 import application.model.CardsModel;
 import javafx.collections.ListChangeListener;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -28,13 +34,22 @@ public class ListPaneController {
 	@FXML
 	VBox container;
 	
+	@FXML
+	ScrollPane scroll;
+	
+	@FXML
+	VBox testContainer;
+	
+	@FXML
+	ScrollPane testScroll;
+	
+	@FXML
+	TextField search;
+	
 	private Main main;
 	private Stage primaryStage;
 	
-	private ScrollPane listPane;
-	
 	private CardsModel model;
-	private int deleteIndex;
 	
 	public void handleNewCard() {
 		try {
@@ -75,7 +90,7 @@ public class ListPaneController {
 	
 	public void loadCards(List<CardDataStructure> cards) {
 		model.clearCards();
-		model.clearMaster();
+		model.clearTest();
 		container.getChildren().clear();
 		for(CardDataStructure c : cards) {
 			List<String> tags = c.getTags();
@@ -87,11 +102,9 @@ public class ListPaneController {
 		return container;
 	}
 	
-	public void init(Main main, Stage primaryStage, CardsModel model, ScrollPane listPane) {
+	public void init(Main main, Stage primaryStage, CardsModel model) {
 		this.main = main;
 		this.primaryStage = primaryStage;
-		
-		this.listPane = listPane;
 		
 		this.model = model;
 		
@@ -99,7 +112,7 @@ public class ListPaneController {
 	}
 	
 	private void addListener() {
-		model.getObservableList().addListener((ListChangeListener.Change<? extends CardDataStructure> c) -> {
+		model.getObservableCards().addListener((ListChangeListener.Change<? extends CardDataStructure> c) -> {
 			while(c.next()) {
 				if(c.wasAdded()) {
 					try {
@@ -153,7 +166,6 @@ public class ListPaneController {
 									stage.setScene(scene);
 									
 									controller.init(stage, model, index, pane, model.getCard(model.getCardIndex(question.getText(), answer.getText())));
-									deleteIndex = index;
 									
 									stage.showAndWait();
 								} catch(Exception ex) {
@@ -167,15 +179,72 @@ public class ListPaneController {
 					}
 				}
 				if(c.wasRemoved()) {
-					if(container.getChildren().get(deleteIndex) != null)
-						container.getChildren().remove(deleteIndex);
+					container.getChildren().remove(c.getFrom());
+				}
+			}
+		});
+		
+		model.getTestList().addListener((ListChangeListener.Change<? extends CardDataStructure> c) -> {
+			while(c.next()) {
+				if(c.wasAdded()) {
+					try {
+						FXMLLoader loader = new FXMLLoader();
+						loader.setLocation(main.getClass().getResource("view/MiniCardView.fxml"));
+						BorderPane pane = (BorderPane) loader.load();
+						
+						pane.getStyleClass().add("card");
+						
+						MiniCardController controller = loader.getController();
+						
+						controller.init(c.getList().get(c.getFrom()).getQuestion(), c.getList().get(c.getFrom()).getAnswer());
+
+						testContainer.getChildren().add(pane);
+					} catch(Exception e) {
+						e.printStackTrace();
+					}
+				}
+				if(c.wasRemoved()) {
+					testContainer.getChildren().remove(c.getFrom());
+				}
+			}
+		});
+		
+		search.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(KeyEvent e) {
+				if(e.getCode().equals(KeyCode.ENTER)) {
+					if(!search.getText().isEmpty()) {
+						model.getObservableCards().clear();
+						container.getChildren().clear();
+						
+						Search searchTask = new Search();
+						
+						ExecutorService executor = Executors.newSingleThreadExecutor();
+						Future<List<CardDataStructure>> future;
+						
+						future = executor.submit(searchTask.getSearch(model.getMaster(), search.getText()));
+						try {
+							for(CardDataStructure c : future.get()) {
+								model.addToCards(c);
+							}
+						} catch(Exception ex) {
+							ex.printStackTrace();
+						} finally {
+							executor.shutdown();
+						}
+					}
 				}
 			}
 		});
 		
 		container.heightProperty().addListener((ods,ov,nv) -> {
 			if(nv.doubleValue() > ov.doubleValue())
-				listPane.setVvalue(1.0);
+				scroll.setVvalue(1.0);
+		});
+		
+		testContainer.heightProperty().addListener((ods,ov,nv) -> {
+			if(nv.doubleValue() > ov.doubleValue())
+				testScroll.setVvalue(1.0);
 		});
 	}
 }

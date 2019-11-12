@@ -73,17 +73,18 @@ public class ButtonPaneController {
 		}
 	}
 	
+	//NECESSARY?????
 	public void handleShowAll() {
 		model.clearCards();
 		listController.getContainer().getChildren().clear();
 		for(CardDataStructure c : model.getMaster())
-			model.addToList(c);
+			model.addToTest(c);
 	}
 	
 	public void handleSave() {
 		if(!model.isEmpty()) {
 			JsonWriter writer = new JsonWriter();
-			writer.write(primaryStage, model.getObservableList().iterator(), model.getObservableTags().iterator());
+			writer.write(primaryStage, model.getMaster().iterator(), model.getObservableTags().iterator());
 		}
 	}
 	

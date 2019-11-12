@@ -31,7 +31,7 @@ public class TagEditController {
 			if(tag.getStyleClass().contains("warning"))
 				tag.getStyleClass().remove("warning");
 			if(tag.getText() != oldTag) {
-				for(CardDataStructure c : model.getObservableList()) {
+				for(CardDataStructure c : model.getMaster()) {
 					for(int i=0; i<c.getTags().size(); i++) {
 						if(c.getTags().get(i).equalsIgnoreCase(oldTag)) {
 							c.changeTag(tag.getText(), oldTag);
