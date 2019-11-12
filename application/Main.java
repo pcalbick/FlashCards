@@ -1,9 +1,9 @@
 /* TODO
  * 
- * CHECK ON SAVE, ALOT HAS BEEN ADDED TO THE MODEL
  * ADD AFTER SEARCH BECOMES PROBLEM
  * RETHINK UI!!!
- * ADD SORT
+ * ADD SORT?
+ * SHOW ALL IS BUGGED
  * 
  * REVAMP BUTTON PANE (WHAT SHOULD BE THERE? MENU BAR INSTEAD?)
  * ADD SAVE AND SAVE AS
@@ -18,6 +18,8 @@
  * ROOT PANE CONTROLLER MIGHT NOT BE NEEDED
  * 
  * SAVE ARRAY OF TESTS
+ * 
+ * CLOSE MAIN STAGE CLOSES ALL CHILDREN STAGES
  * 
  */
 
@@ -34,6 +36,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.SplitPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -74,11 +77,9 @@ public class Main extends Application {
 			
 			primaryStage.setScene(scene);
 			
-			//primaryStage.setHeight(600);
-			//primaryStage.setWidth(700);
+			primaryStage.setMinWidth(1150);
+			primaryStage.setMinHeight(700);
 			
-			primaryStage.setMinHeight(600);
-			primaryStage.setMinWidth(700);
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -89,7 +90,7 @@ public class Main extends Application {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("view/ListPane.fxml"));
-			HBox listPane = (HBox) loader.load();
+			SplitPane listPane = (SplitPane) loader.load();
 			
 			listController = loader.getController();
 			listController.init(this, primaryStage, cardsModel);

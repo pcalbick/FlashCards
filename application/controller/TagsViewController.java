@@ -36,10 +36,10 @@ public class TagsViewController {
 	private CardsModel model;
 	
 	public void handleShowAll() {
-		model.getObservableCards().clear();
+		/*model.getObservableCards().clear();
 		for(CardDataStructure c : model.getMaster()) {
 			model.addToCards(c);
-		}
+		}*/
 	}
 	
 	public void load(List<String> tags) {
@@ -159,8 +159,8 @@ public class TagsViewController {
 				Search search = new Search();
 				ExecutorService executor = Executors.newSingleThreadExecutor();
 				
-				if(!tag.getStyleClass().contains("card")) {
-					tag.getStyleClass().add("card");
+				if(!tag.getStyleClass().contains("highLight")) {
+					tag.getStyleClass().add("highLight");
 
 					Future<List<CardDataStructure>> future = executor.submit(search.getSearch(model.getMaster(), itemController.getTag().getText()));
 					
@@ -176,7 +176,7 @@ public class TagsViewController {
 					}
 					
 				} else {
-					tag.getStyleClass().remove("card");
+					tag.getStyleClass().remove("highLight");
 					
 					Future<List<CardDataStructure>> future = executor.submit(search.getSearch(model.getTestList(), itemController.getTag().getText()));
 					

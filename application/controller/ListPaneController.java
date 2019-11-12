@@ -89,9 +89,11 @@ public class ListPaneController {
 	}
 	
 	public void loadCards(List<CardDataStructure> cards) {
+		model.clearMaster();
 		model.clearCards();
 		model.clearTest();
 		container.getChildren().clear();
+		testContainer.getChildren().clear();
 		for(CardDataStructure c : cards) {
 			List<String> tags = c.getTags();
 			model.addCard(c.getQuestion(), c.getAnswer(), tags);

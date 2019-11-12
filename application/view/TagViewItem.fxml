@@ -18,7 +18,7 @@
    <children>
       <Label fx:id="tag" alignment="CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" text="Label" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
          <GridPane.margin>
-            <Insets left="5.0" right="5.0" />
+            <Insets />
          </GridPane.margin>
       </Label>
       <Label fx:id="edit" alignment="CENTER" text="Edit" visible="false" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
@@ -31,6 +31,6 @@
          </padding></Label>
    </children>
    <padding>
-      <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+      <Insets left="10.0" right="10.0" />
    </padding>
 </GridPane>

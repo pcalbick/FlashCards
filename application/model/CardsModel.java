@@ -141,6 +141,10 @@ public class CardsModel {
 	}
 	
 	//Clear Lists
+	public void clearMaster() {
+		master.clear();
+	}
+	
 	public void clearCards() {
 		cards.clear();
 	}

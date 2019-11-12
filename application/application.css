@@ -8,6 +8,11 @@
 	-fx-border-width: 2px;
 }
 
+.highLight {
+	-fx-background-color: #c2d9ff;
+	-fx-background-radius: 5px;
+}
+
 .correct {
 	-fx-background-color: #c9ffd1;
 	-fx-background-radius: 5px;
