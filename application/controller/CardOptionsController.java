@@ -59,9 +59,9 @@ public class CardOptionsController {
 		} else {
 			question.getStyleClass().remove("warning");
 			answer.getStyleClass().remove("warning");
-			if(question.getText().equals("")) {
+			if(question.getText().equals(""))
 				question.getStyleClass().add("warning");
-			} if(answer.getText().equals(""))
+			if(answer.getText().equals(""))
 				answer.getStyleClass().add("warning");
 		}
 	}

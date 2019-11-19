@@ -43,26 +43,35 @@ public class CardEditController {
 	private List<String> oldTags;
 	
 	public void handleOk() {
-		List<String> tagList = new ArrayList<>();
-		
-		if(!tags.getText().isEmpty()) {
-			tagList = getTags();
+		if(!question.getText().isEmpty() && !answer.getText().isEmpty()) {
+			List<String> tagList = new ArrayList<>();
 			
-			for(String tag : getTags()) {
-				if(!model.getObservableTags().contains(tag))
-					model.addTag(tag);
+			if(!tags.getText().isEmpty()) {
+				tagList = getTags();
+				
+				for(String tag : getTags()) {
+					if(!model.getObservableTags().contains(tag))
+						model.addTag(tag);
+				}
 			}
+			
+			model.changeCard(question.getText(), answer.getText(), tagList, index);
+			
+			Label q = (Label) pane.getChildren().get(0);
+			Label a = (Label) pane.getChildren().get(1);
+			q.setText(question.getText());
+			a.setText(answer.getText());
+			
+			removeTags(tagList,false);
+			stage.close();
+		} else {
+			question.getStyleClass().remove("warning");
+			answer.getStyleClass().remove("warning");
+			if(question.getText().equals(""))
+				question.getStyleClass().add("warning");
+			if(answer.getText().equals(""))
+				answer.getStyleClass().add("warning");
 		}
-		
-		model.changeCard(question.getText(), answer.getText(), tagList, index);
-		
-		Label q = (Label) pane.getChildren().get(0);
-		Label a = (Label) pane.getChildren().get(1);
-		q.setText(question.getText());
-		a.setText(answer.getText());
-		
-		removeTags(tagList,false);
-		stage.close();
 	}
 	
 	public void handleCancel() {
@@ -133,6 +142,7 @@ public class CardEditController {
 	}
 	
 	public void init(Stage stage, CardsModel model, int index, BorderPane pane, CardDataStructure card) {
+		stage.getScene().getStylesheets().add(getClass().getClassLoader().getResource("application/application.css").toString());
 		question.setText(model.getQuestion(index));
 		answer.setText(model.getAnswer(index));
 		List<String> tagList = model.getTags(index);

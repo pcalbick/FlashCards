@@ -161,7 +161,8 @@ public class TagsViewController {
 					try {
 						if(future.get() != null || !future.get().isEmpty()) {
 							for(CardDataStructure c : future.get())
-								model.addToTest(c);
+								if(!model.getTestList().contains(c))
+									model.addToTest(c);
 						}
 					} catch (Exception ex) {
 						ex.printStackTrace();

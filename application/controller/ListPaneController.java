@@ -71,13 +71,22 @@ public class ListPaneController {
 				@Override
 				public void handle(KeyEvent e) {
 					if(e.getCode().equals(KeyCode.ENTER)) {
-						for(String tag : controller.getTags()) {
-							if(!model.getObservableTags().contains(tag))
-								model.addTag(tag);
+						if(!controller.getQuestion().isEmpty() && !controller.getAnswer().isEmpty()) {
+							for(String tag : controller.getTags()) {
+								if(!model.getObservableTags().contains(tag))
+									model.addTag(tag);
+							}
+							
+							model.addCard(controller.getQuestion(), controller.getAnswer(), controller.getTags());
+							optionsStage.close();
+						} else {
+							controller.question.getStyleClass().remove("warning");
+							controller.answer.getStyleClass().remove("warning");
+							if(controller.question.getText().equals(""))
+								controller.question.getStyleClass().add("warning");
+							if(controller.answer.getText().equals(""))
+								controller.answer.getStyleClass().add("warning");
 						}
-						
-						model.addCard(controller.getQuestion(), controller.getAnswer(), controller.getTags());
-						optionsStage.close();
 					}
 				}
 			});
@@ -162,24 +171,34 @@ public class ListPaneController {
 									Stage stage = new Stage();
 									
 									Scene scene = new Scene(view);
+									scene.getStylesheets().add(getClass().getClassLoader().getResource("application/application.css").toString());
 									scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 										@Override
 										public void handle(KeyEvent e) {
 											if(e.getCode().equals(KeyCode.ENTER)) {
-												for(String tag : controller.getTags()) {
-													if(!model.getObservableTags().contains(tag))
-														model.addTag(tag);
+												if(!controller.getQuestion().isEmpty() && !controller.getAnswer().isEmpty()) {
+													for(String tag : controller.getTags()) {
+														if(!model.getObservableTags().contains(tag))
+															model.addTag(tag);
+													}
+													model.changeCard(controller.getQuestion(), controller.getAnswer(), controller.getTags(), index);
+													
+													controller.removeTags(controller.getTags(),false);
+													
+													BorderPane card = (BorderPane) container.getChildren().get(index);
+													Label question = (Label) card.getChildren().get(0);
+													Label answer = (Label) card.getChildren().get(1);
+													question.setText(model.getQuestion(index));
+													answer.setText(model.getAnswer(index));
+													stage.close();
+												} else {
+													controller.question.getStyleClass().remove("warning");
+													controller.answer.getStyleClass().remove("warning");
+													if(controller.question.getText().equals(""))
+														controller.question.getStyleClass().add("warning");
+													if(controller.answer.getText().equals(""))
+														controller.answer.getStyleClass().add("warning");
 												}
-												model.changeCard(controller.getQuestion(), controller.getAnswer(), controller.getTags(), index);
-												
-												controller.removeTags(controller.getTags(),false);
-												
-												BorderPane card = (BorderPane) container.getChildren().get(index);
-												Label question = (Label) card.getChildren().get(0);
-												Label answer = (Label) card.getChildren().get(1);
-												question.setText(model.getQuestion(index));
-												answer.setText(model.getAnswer(index));
-												stage.close();
 											}
 										}
 									});
