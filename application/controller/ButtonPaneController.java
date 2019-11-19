@@ -31,9 +31,6 @@ public class ButtonPaneController {
 	@FXML
 	Button load;
 	
-	@FXML
-	Button showAll;
-	
 	private Main main;
 	private CardsModel model;
 	private Stage primaryStage;
@@ -71,14 +68,6 @@ public class ButtonPaneController {
 				e.printStackTrace();
 			}
 		}
-	}
-	
-	//NECESSARY?????
-	public void handleShowAll() {
-		model.clearCards();
-		listController.getContainer().getChildren().clear();
-		for(CardDataStructure c : model.getMaster())
-			model.addToTest(c);
 	}
 	
 	public void handleSave() {

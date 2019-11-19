@@ -13,11 +13,6 @@
             <Insets bottom="10.0" top="10.0" />
          </VBox.margin>
       </Label>
-      <Label fx:id="showAll" alignment="CENTER" contentDisplay="CENTER" maxWidth="-Infinity" minWidth="-Infinity" onMouseClicked="#handleShowAll" prefWidth="150.0" text="Show All">
-         <padding>
-            <Insets bottom="5.0" top="5.0" />
-         </padding>
-      </Label>
       <ScrollPane hbarPolicy="NEVER" minHeight="-Infinity" minWidth="-Infinity" prefWidth="150.0">
          <content>
             <VBox fx:id="container" alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefWidth="150.0" spacing="5.0">

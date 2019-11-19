@@ -5,6 +5,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import application.Comparators;
+import application.InsertionSort;
 import application.Main;
 import application.Search;
 import application.model.CardDataStructure;
@@ -30,23 +32,15 @@ public class TagsViewController {
 	@FXML
 	VBox container;
 	
-	@FXML
-	Label showAll;
-	
 	private CardsModel model;
 	
-	public void handleShowAll() {
-		/*model.getObservableCards().clear();
-		for(CardDataStructure c : model.getMaster()) {
-			model.addToCards(c);
-		}*/
-	}
-	
 	public void load(List<String> tags) {
-		model.clearTags();
-		container.getChildren().clear();
-		for(String s : tags) {
-			model.addTag(s);
+		if(tags != null) {
+			model.clearTags();
+			container.getChildren().clear();
+			for(String s : tags) {
+				model.addTag(s);
+			}
 		}
 	}
 	

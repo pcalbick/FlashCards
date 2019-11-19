@@ -46,6 +46,9 @@ public class ListPaneController {
 	@FXML
 	TextField search;
 	
+	@FXML
+	Button clear;
+	
 	private Main main;
 	private Stage primaryStage;
 	
@@ -88,15 +91,31 @@ public class ListPaneController {
 		}
 	}
 	
-	public void loadCards(List<CardDataStructure> cards) {
-		model.clearMaster();
-		model.clearCards();
-		model.clearTest();
+	public void handleClear() {
+		if(newCard.isDisable())
+			newCard.setDisable(false);
+		
+		search.clear();
+		
+		model.getObservableCards().clear();
 		container.getChildren().clear();
-		testContainer.getChildren().clear();
-		for(CardDataStructure c : cards) {
-			List<String> tags = c.getTags();
-			model.addCard(c.getQuestion(), c.getAnswer(), tags);
+		
+		for(CardDataStructure c : model.getMaster()) {
+			model.addToCards(c);
+		}
+	}
+	
+	public void loadCards(List<CardDataStructure> cards) {
+		if(cards != null) {
+			model.clearMaster();
+			model.clearCards();
+			model.clearTest();
+			container.getChildren().clear();
+			testContainer.getChildren().clear();
+			for(CardDataStructure c : cards) {
+				List<String> tags = c.getTags();
+				model.addCard(c.getQuestion(), c.getAnswer(), tags);
+			}
 		}
 	}
 	
@@ -216,6 +235,7 @@ public class ListPaneController {
 			public void handle(KeyEvent e) {
 				if(e.getCode().equals(KeyCode.ENTER)) {
 					if(!search.getText().isEmpty()) {
+						newCard.setDisable(true);
 						model.getObservableCards().clear();
 						container.getChildren().clear();
 						

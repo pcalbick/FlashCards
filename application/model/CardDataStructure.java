@@ -1,11 +1,11 @@
 package application.model;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 //import java.util.function.UnaryOperator;
 
 public class CardDataStructure {
-	
 	private String q;
 	private String a;
 	
