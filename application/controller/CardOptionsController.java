@@ -45,6 +45,7 @@ public class CardOptionsController {
 					temp = temp.replace(tag, "");
 					
 					tag = tag.replace(",", "");
+					tag = tag.trim();
 					tagList.add(tag);
 				}
 			}
@@ -53,7 +54,7 @@ public class CardOptionsController {
 				if(!model.getObservableTags().contains(tag))
 					model.addTag(tag);
 			}
-			
+
 			model.addCard(question.getText(), answer.getText(), tagList);
 			optionsStage.close();
 		} else {
@@ -93,6 +94,7 @@ public class CardOptionsController {
 				temp = temp.replace(tag, "");
 				
 				tag = tag.replace(",", "");
+				tag = tag.trim();
 				tagList.add(tag);
 			}
 		}

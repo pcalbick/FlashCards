@@ -135,6 +135,7 @@ public class CardEditController {
 				temp = temp.replace(tag, "");
 				
 				tag = tag.replace(",", "");
+				tag = tag.trim();
 				tagList.add(tag);
 			}
 		}
@@ -149,7 +150,7 @@ public class CardEditController {
 		
 		String tagString = "";
 		for(int i=0; i<tagList.size(); i++) {
-			tagString += tagList.get(i) + ",";
+			tagString += tagList.get(i) + ", ";
 		}
 		
 		tags.setText(tagString);

@@ -49,6 +49,15 @@ public class ListPaneController {
 	@FXML
 	Button clear;
 	
+	@FXML
+	VBox testWarning;
+	
+	@FXML
+	Label warning1;
+	
+	@FXML
+	Label warning2;
+	
 	private Main main;
 	private Stage primaryStage;
 	
@@ -228,6 +237,8 @@ public class ListPaneController {
 			while(c.next()) {
 				if(c.wasAdded()) {
 					try {
+						testWarning.getChildren().clear();
+						
 						FXMLLoader loader = new FXMLLoader();
 						loader.setLocation(main.getClass().getResource("view/MiniCardView.fxml"));
 						BorderPane pane = (BorderPane) loader.load();
@@ -244,6 +255,10 @@ public class ListPaneController {
 					}
 				}
 				if(c.wasRemoved()) {
+					if(model.getTestList().isEmpty()) {
+						testWarning.getChildren().add(warning1);
+						testWarning.getChildren().add(warning2);
+					}
 					testContainer.getChildren().remove(c.getFrom());
 				}
 			}

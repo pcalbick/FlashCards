@@ -18,9 +18,13 @@
             <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
          </VBox.margin>
       </Separator>
-      <Button fx:id="saveButton" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleSave" prefWidth="100.0" text="Save">
+      <Button fx:id="save" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleSave" prefWidth="100.0" text="Save">
          <VBox.margin>
             <Insets bottom="20.0" top="10.0" />
+         </VBox.margin></Button>
+      <Button fx:id="saveAs" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleSaveAs" prefWidth="100.0" text="Save As">
+         <VBox.margin>
+            <Insets bottom="20.0" />
          </VBox.margin>
       </Button>
       <Button fx:id="loadButton" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleLoad" prefWidth="100.0" text="Load">

@@ -29,6 +29,9 @@ public class ButtonPaneController {
 	Button save;
 	
 	@FXML
+	Button saveAs;
+	
+	@FXML
 	Button load;
 	
 	private Main main;
@@ -71,7 +74,11 @@ public class ButtonPaneController {
 	}
 	
 	public void handleSave() {
-		if(!model.isEmpty()) {
+		
+	}
+	
+	public void handleSaveAs() {
+		if(!model.getMaster().isEmpty()) {
 			JsonWriter writer = new JsonWriter();
 			writer.write(primaryStage, model.getMaster().iterator(), model.getObservableTags().iterator());
 		}
