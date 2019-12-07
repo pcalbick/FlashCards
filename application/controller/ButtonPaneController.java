@@ -26,6 +26,9 @@ public class ButtonPaneController {
 	Button play;
 	
 	@FXML
+	Button test;
+	
+	@FXML
 	Button save;
 	
 	@FXML
@@ -41,46 +44,57 @@ public class ButtonPaneController {
 	private TagsViewController tagController;
 	
 	public void handlePlay() {
-		if(!model.isEmpty()) {
-			try {
-				FXMLLoader loader = new FXMLLoader();
-				loader.setLocation(main.getClass().getResource("view/PlayView.fxml"));
-				GridPane play = (GridPane) loader.load();
-				PlayController controller = loader.getController();
-				
-				Stage playStage = new Stage();
-				playStage.setTitle("Play");
-				playStage.initModality(Modality.WINDOW_MODAL);
-				playStage.initOwner(primaryStage);
-				
-				Scene cardScene = new Scene(play);
-				cardScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-					@Override
-					public void handle(KeyEvent e) {
-						if(e.getCode().equals(KeyCode.ESCAPE)) {
-							playStage.close();
-						}
+		if(!model.isEmpty())
+			makeTestWindow(false);
+	}
+	
+	public void handleTest() {
+		if(!model.isEmpty())
+			makeTestWindow(true);
+	}
+	
+	private void makeTestWindow(boolean test) {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(main.getClass().getResource("view/PlayView.fxml"));
+			GridPane play = (GridPane) loader.load();
+			PlayController controller = loader.getController();
+			
+			Stage playStage = new Stage();
+			playStage.setTitle("Play");
+			playStage.initModality(Modality.WINDOW_MODAL);
+			playStage.initOwner(primaryStage);
+			
+			Scene cardScene = new Scene(play);
+			cardScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+				@Override
+				public void handle(KeyEvent e) {
+					if(e.getCode().equals(KeyCode.ESCAPE)) {
+						playStage.close();
 					}
-				});
-				
-				playStage.setScene(cardScene);
-				controller.init(playStage, model);
-				
-				playStage.showAndWait();
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
+				}
+			});
+			
+			playStage.setScene(cardScene);
+			controller.init(playStage, model, test);
+			
+			playStage.showAndWait();
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
 	public void handleSave() {
-		
+		if(model.getPath() != null && !model.getMaster().isEmpty()) {
+			JsonWriter writer = new JsonWriter();
+			writer.save(model.getPath(), model.getMaster().iterator(), model.getObservableTags().iterator());
+		}		
 	}
 	
 	public void handleSaveAs() {
 		if(!model.getMaster().isEmpty()) {
 			JsonWriter writer = new JsonWriter();
-			writer.write(primaryStage, model.getMaster().iterator(), model.getObservableTags().iterator());
+			writer.saveAs(primaryStage, model, model.getMaster().iterator(), model.getObservableTags().iterator());
 		}
 	}
 	
@@ -100,6 +114,8 @@ public class ButtonPaneController {
 		List<String> tagList = load.loadTags(file);
 		if(tagList != null)
 			tagController.load(tagList);
+		
+		model.setPath(load.loadPath(file));
 	}
 	
 	public void init(Main main, CardsModel model, Stage primaryStage, ListPaneController listController, TagsViewController tagController) {

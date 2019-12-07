@@ -8,6 +8,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +18,25 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class JsonLoader {
+	
+	public Path loadPath(File file) {
+		Path path = null;
+		
+		if(file != null) {
+			JSONParser parser = new JSONParser();
+			
+			try(BufferedReader reader = new BufferedReader(new FileReader(file))){
+				Object obj = parser.parse(reader);
+				JSONArray items = (JSONArray) obj;
+				JSONObject objPath = (JSONObject) items.get(items.size()-1);
+				path = Paths.get((String)objPath.get("path"));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return path;
+	}
 	
 	public ArrayList<String> loadTags(File file) {
 		ArrayList<String> load = new ArrayList<String>();
@@ -26,7 +47,7 @@ public class JsonLoader {
 			try(BufferedReader reader = new BufferedReader(new FileReader(file))){
 				Object obj = parser.parse(reader);
 				JSONArray items = (JSONArray) obj;
-				JSONArray tags = (JSONArray) items.get(items.size()-1);
+				JSONArray tags = (JSONArray) items.get(items.size()-2);
 				for(Object o : tags) {
 					load.add((String)o);
 				}
@@ -50,7 +71,7 @@ public class JsonLoader {
 				Object obj = parser.parse(reader);
 				JSONArray cards = (JSONArray) obj;
 				for(int i=0; i<cards.size(); i++) {
-					if(i < cards.size()-1) {
+					if(i < cards.size()-2) {
 						JSONObject card = (JSONObject) cards.get(i);
 						JSONArray tags = (JSONArray) card.get("tags");
 						List<String> tagList = new ArrayList<>();

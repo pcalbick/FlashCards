@@ -1,5 +1,6 @@
 package application.model;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,17 @@ public class CardsModel {
 	private ObservableList<CardDataStructure> cards = FXCollections.observableList(new ArrayList<CardDataStructure>());
 	private ObservableList<CardDataStructure> test = FXCollections.observableList(new ArrayList<CardDataStructure>());
 	private ObservableList<String> tags = FXCollections.observableList(new ArrayList<String>());
+	private Path file;
+	
+	//Set Path
+	public void setPath(Path path) {
+		file = path;
+	}
+	
+	//Get Path
+	public Path getPath() {
+		return file;
+	}
 	
 	//Create Card
 	public void addCard(String first, String second, List<String> tags) {

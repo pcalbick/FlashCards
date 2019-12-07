@@ -40,6 +40,7 @@ public class PlayController {
 	private Object[] cards;
 	private int count = 0;
 	private int numberCorrect = 0;
+	private boolean isTest;
 	
 	public void handleAccept() {
 		if(!answer.getText().equals("")) {
@@ -50,12 +51,12 @@ public class PlayController {
 			
 			if(answer.getText().equalsIgnoreCase(c.getAnswer())) {
 				container.getStyleClass().add("correct");
-				tryAgain.setDisable(false);
+				tryAgain.setDisable(isTest);
 				next.setDisable(false);
 				numberCorrect++;
 			} else {
 				container.getStyleClass().add("incorrect");
-				tryAgain.setDisable(false);
+				tryAgain.setDisable(isTest);
 				next.setDisable(false);
 			}
 		}  else {
@@ -108,7 +109,7 @@ public class PlayController {
 		}
 	}
 	
-	public void init(Stage stage, CardsModel model) {
+	public void init(Stage stage, CardsModel model, boolean test) {
 		stage.getScene().getStylesheets().add(getClass().getClassLoader().getResource("application/application.css").toString());
 		container.getStyleClass().add("card");
 		
@@ -147,6 +148,10 @@ public class PlayController {
 				}
 			}
 		});
+		
+		if(test)
+			tryAgain.setDisable(true);
+		isTest = test;
 	}
 	
 	public void shuffle(Object[] a) {
