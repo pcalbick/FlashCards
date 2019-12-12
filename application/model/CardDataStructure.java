@@ -3,7 +3,12 @@ package application.model;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-//import java.util.function.UnaryOperator;
+
+/*
+ * 
+ * Operations used to edit and create single cards
+ * 
+ */
 
 public class CardDataStructure {
 	private String q;

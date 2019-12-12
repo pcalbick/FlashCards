@@ -1,5 +1,12 @@
 package application.controller;
 
+/*
+ * 
+ * Main screen. The screen is split into two sides. One side containing the master list of cards that is searchable.
+ * the other container the chosen cards to be tested.
+ * 
+ */
+
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -28,30 +35,40 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class ListPaneController {
+	//Create card button
 	@FXML
 	Button newCard;
 	
+	//Rendered master list container
 	@FXML
 	VBox container;
 	
+	//Scroll Pane for the master list container
 	@FXML
 	ScrollPane scroll;
 	
+	//Rendered test list container
 	@FXML
 	VBox testContainer;
 	
+	//Scroll Pane for test list container
 	@FXML
 	ScrollPane testScroll;
 	
+	//Search test input
 	@FXML
 	TextField search;
 	
+	//Clear search results button
 	@FXML
 	Button clear;
 	
+	//Container of the next two warnings
 	@FXML
 	VBox testWarning;
 	
+	//Tool tip that is displaced when no cards selected
+	//Tells user to select a tag to populate list
 	@FXML
 	Label warning1;
 	
@@ -77,6 +94,8 @@ public class ListPaneController {
 			
 			Scene cardScene = new Scene(cardOptions);
 			cardScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+				//Allowing keyboard functionality on created window
+				
 				@Override
 				public void handle(KeyEvent e) {
 					if(e.getCode().equals(KeyCode.ENTER)) {
@@ -109,6 +128,7 @@ public class ListPaneController {
 		}
 	}
 	
+	//Clear the search and return the master list to its original state of displaying all cards
 	public void handleClear() {
 		if(newCard.isDisable())
 			newCard.setDisable(false);
@@ -123,6 +143,7 @@ public class ListPaneController {
 		}
 	}
 	
+	//Called when load from the button pane is clicked and a json file selected
 	public void loadCards(List<CardDataStructure> cards) {
 		if(cards != null) {
 			model.clearMaster();
@@ -137,6 +158,7 @@ public class ListPaneController {
 		}
 	}
 	
+	//Returns the side of the screen containing the master list
 	public VBox getContainer() {
 		return container;
 	}
@@ -151,10 +173,12 @@ public class ListPaneController {
 	}
 	
 	private void addListener() {
+		//Searchable and rendered master list of cards
 		model.getObservableCards().addListener((ListChangeListener.Change<? extends CardDataStructure> c) -> {
 			while(c.next()) {
 				if(c.wasAdded()) {
 					try {
+						//When a new card is created render the card
 						FXMLLoader loader = new FXMLLoader();
 						loader.setLocation(main.getClass().getResource("view/MiniCardView.fxml"));
 						BorderPane pane = (BorderPane) loader.load();
@@ -163,11 +187,13 @@ public class ListPaneController {
 						
 						MiniCardController controller = loader.getController();
 						controller.init(model.getQuestion(model.getSize()-1), model.getAnswer(model.getSize()-1));
-
+						
+						//Allow editing of the card by clicking on it
 						pane.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 							@Override
 							public void handle(MouseEvent e) {
 								try {
+									//Show the card editor window
 									FXMLLoader loader = new FXMLLoader();
 									loader.setLocation(main.getClass().getResource("view/CardEditView.fxml"));
 									VBox view = (VBox) loader.load();
@@ -181,6 +207,8 @@ public class ListPaneController {
 									
 									Scene scene = new Scene(view);
 									scene.getStylesheets().add(getClass().getClassLoader().getResource("application/application.css").toString());
+									
+									//Allow keyboard control of window created
 									scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 										@Override
 										public void handle(KeyEvent e) {
@@ -222,21 +250,26 @@ public class ListPaneController {
 								}
 							}
 						});
+						
+						//Finally add new card to the master list side of the screen
 						container.getChildren().add(pane);
 					} catch(Exception e) {
 						e.printStackTrace();
 					}
 				}
+				//Delete rendered card if removed from list
 				if(c.wasRemoved()) {
 					container.getChildren().remove(c.getFrom());
 				}
 			}
 		});
 		
+		//Rendered list of cards chosen for to be tested
 		model.getTestList().addListener((ListChangeListener.Change<? extends CardDataStructure> c) -> {
 			while(c.next()) {
 				if(c.wasAdded()) {
 					try {
+						//Render the card added to the test list
 						testWarning.getChildren().clear();
 						
 						FXMLLoader loader = new FXMLLoader();
@@ -255,6 +288,7 @@ public class ListPaneController {
 					}
 				}
 				if(c.wasRemoved()) {
+					//Remove cards and if empty show tool tips
 					if(model.getTestList().isEmpty()) {
 						testWarning.getChildren().add(warning1);
 						testWarning.getChildren().add(warning2);
@@ -264,6 +298,7 @@ public class ListPaneController {
 			}
 		});
 		
+		//Allow search functionality for the rendered master list
 		search.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent e) {
@@ -293,6 +328,7 @@ public class ListPaneController {
 			}
 		});
 		
+		//Always have the scroll at the bottom showing the last item added
 		container.heightProperty().addListener((ods,ov,nv) -> {
 			if(nv.doubleValue() > ov.doubleValue())
 				scroll.setVvalue(1.0);

@@ -1,5 +1,11 @@
 package application.controller;
 
+/*
+ * 
+ * Search bar for the rendered master list
+ * 
+ */
+
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

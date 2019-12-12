@@ -9,10 +9,15 @@ import javafx.collections.ObservableList;
 
 public class CardsModel {
 	
+	//Master list of cards created
 	private List<CardDataStructure> master = new ArrayList<>();
+	//Rendered list of all cards and search results
 	private ObservableList<CardDataStructure> cards = FXCollections.observableList(new ArrayList<CardDataStructure>());
+	//Rendered list of cards chosen for a test
 	private ObservableList<CardDataStructure> test = FXCollections.observableList(new ArrayList<CardDataStructure>());
+	//Master list of tags
 	private ObservableList<String> tags = FXCollections.observableList(new ArrayList<String>());
+	//Path to saved cards
 	private Path file;
 	
 	//Set Path
@@ -169,7 +174,6 @@ public class CardsModel {
 		tags.clear();
 	}
 	
-	//PROBABLY A NO NO (DONT LOOP IN MODEL?)
 	public int getCardIndex(String question, String answer) {
 		for(int i=0; i<cards.size(); i++) {
 			if(cards.get(i).getAnswer().equals(answer) && cards.get(i).getQuestion().equals(question))

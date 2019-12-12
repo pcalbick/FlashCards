@@ -1,5 +1,11 @@
 package application;
 
+/*
+ * 
+ * Save master list of cards, master list of tags, and file location to json file
+ * 
+ */
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 

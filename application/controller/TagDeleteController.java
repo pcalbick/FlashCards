@@ -1,5 +1,11 @@
 package application.controller;
 
+/*
+ * 
+ * Called when delete is pressed after hovering a tag
+ * 
+ */
+
 import application.model.CardDataStructure;
 import application.model.CardsModel;
 import javafx.fxml.FXML;
@@ -22,11 +28,14 @@ public class TagDeleteController {
 	private VBox container;
 	private GridPane item;
 	
+	//Delete tag from master list of tags and from all created cards
 	public void handleYes() {
 		for(CardDataStructure c : model.getMaster()) {
 			for(int i=0; i<c.getTags().size(); i++) {
-				if(c.getTags().get(i).equalsIgnoreCase(itemController.getTag().getText()))
+				if(c.getTags().get(i).equalsIgnoreCase(itemController.getTag().getText())) {
 					c.removeTag(itemController.getTag().getText());
+					model.getTestList().remove(c);
+				}
 			}
 		}
 		model.deleteTag(model.getObservableTags().indexOf(itemController.getTag().getText()));

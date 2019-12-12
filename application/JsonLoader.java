@@ -1,5 +1,12 @@
 package application;
 
+/*
+ * 
+ * Load cards from a selected json file
+ * Uses external jar
+ * 
+ */
+
 import org.json.simple.parser.JSONParser;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

@@ -1,5 +1,22 @@
 package application.controller;
 
+/*
+ * 
+ * Panel of buttons that contains:
+ * 
+ * Practice button (Play)
+ * Test button
+ * Practice allows for repeat tries on cards while test does not
+ * 
+ * Save button
+ * Save As button
+ * Saved out to json file
+ * 
+ * Load button
+ * File explorer to load json files
+ * 
+ */
+
 import java.io.File;
 import java.util.List;
 

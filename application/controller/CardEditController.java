@@ -1,5 +1,13 @@
 package application.controller;
 
+/*
+ * 
+ * Stage that allows you to edit the contents of a specific card
+ * 
+ * Shown after clicking on card from the ListPaneController
+ * 
+ */
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -65,6 +73,7 @@ public class CardEditController {
 			removeTags(tagList,false);
 			stage.close();
 		} else {
+			//Cannot leave question or answer blank
 			question.getStyleClass().remove("warning");
 			answer.getStyleClass().remove("warning");
 			if(question.getText().equals(""))
@@ -100,6 +109,7 @@ public class CardEditController {
 		return answer.getText();
 	}
 	
+	//If a tag is deleted and it no longer exists on any card delete the tag from the master list of tags
 	public void removeTags(List<String> tags, boolean delete) {
 		UnusedTags unusedTags = new UnusedTags();
 		
@@ -120,6 +130,7 @@ public class CardEditController {
 		}
 	}
 	
+	//Parsing of the string of tags and placing them into the list of tags for this card
 	public List<String> getTags(){
 		List<String> tagList = new ArrayList<>();
 		

@@ -1,5 +1,11 @@
 package application.controller;
 
+/*
+ * 
+ * Changes the tag in the master list as well as on every created card
+ * 
+ */
+
 import application.model.CardDataStructure;
 import application.model.CardsModel;
 import javafx.fxml.FXML;
@@ -44,6 +50,19 @@ public class TagEditController {
 			stage.close();
 		}
 		tag.getStyleClass().add("warning");
+		/* NEEDS TO BE ASYNC?
+		if(tag.getText() != oldTag) {
+			for(CardDataStructure c : model.getMaster()) {
+				for(int i=0; i<c.getTags().size(); i++) {
+					if(c.getTags().get(i).equalsIgnoreCase(oldTag)) {
+						c.removeTag(oldTag);
+						c.addTag(tag.getText());
+					}
+				}
+			}
+			model.changeTag(model.getObservableTags().indexOf(oldTag), tag.getText());
+			controller.setTag(tag.getText());
+		}*/
 	}
 	
 	public void handleCancel() {

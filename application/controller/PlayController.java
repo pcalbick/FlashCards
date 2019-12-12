@@ -1,5 +1,11 @@
 package application.controller;
 
+/*
+ * 
+ * Window that executes the actual test
+ * 
+ */
+
 import java.util.Random;
 
 import application.model.CardDataStructure;
@@ -37,9 +43,11 @@ public class PlayController {
 	@FXML
 	VBox container;
 	
+	//Local array of test cards to be shuffled and used
 	private Object[] cards;
 	private int count = 0;
 	private int numberCorrect = 0;
+	//Allows for test and practice
 	private boolean isTest;
 	
 	public void handleAccept() {
@@ -115,13 +123,16 @@ public class PlayController {
 		
 		correct.setVisible(false);
 		
+		//Convert test list to local array and shuffle
 		cards = (Object[]) model.getTestList().toArray();
 		shuffle(cards);
 		
+		//Display first card in shuffled test
 		CardDataStructure c = (CardDataStructure) cards[count];
 		question.setText(c.getQuestion());
 		correct.setText(c.getAnswer());
 		
+		//Allow keyboard functionality
 		answer.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent e) {
@@ -149,11 +160,13 @@ public class PlayController {
 			}
 		});
 		
+		//Initialize to test or practice
 		if(test)
 			tryAgain.setDisable(true);
 		isTest = test;
 	}
 	
+	//Shuffle only used here
 	public void shuffle(Object[] a) {
 		Random random = new Random();
 		for(int i=0; i<a.length; i++) {

@@ -1,5 +1,11 @@
 package application;
 
+/*
+ * 
+ * Async task cycling though master list of cards and returning ones that contain searched tag
+ * 
+ */
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;

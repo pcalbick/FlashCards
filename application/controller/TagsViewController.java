@@ -1,5 +1,11 @@
 package application.controller;
 
+/*
+ * 
+ * The rendered tag from the tag list
+ * 
+ */
+
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -34,6 +40,7 @@ public class TagsViewController {
 	
 	private CardsModel model;
 	
+	//Handle loading for a json file
 	public void load(List<String> tags) {
 		if(tags != null) {
 			model.clearTags();
@@ -82,6 +89,7 @@ public class TagsViewController {
 	}
 	
 	public void addListeners(GridPane tag, TagItemController controller, Main main) {
+		//When hovered display the edit and delete options
 		tag.addEventHandler(MouseEvent.MOUSE_ENTERED, new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent e) {
@@ -90,6 +98,7 @@ public class TagsViewController {
 			}
 		});
 		
+		//Remove edit and delete options
 		tag.addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent e) {
@@ -98,6 +107,7 @@ public class TagsViewController {
 			}
 		});
 		
+		//Display the tag edit window when option clicked
 		TagItemController itemController = controller;
 		controller.getEdit().addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 			@Override
@@ -123,6 +133,7 @@ public class TagsViewController {
 			}
 		});
 		
+		//Display delete confirmation window when clicked
 		controller.getDelete().addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent e) {
@@ -147,12 +158,14 @@ public class TagsViewController {
 			}
 		});
 		
+		//Add or remove cards that contain tag from the test list
 		controller.getTag().addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent e) {
 				Search search = new Search();
 				ExecutorService executor = Executors.newSingleThreadExecutor();
 				
+				//Add cards to list
 				if(!tag.getStyleClass().contains("highLight")) {
 					tag.getStyleClass().add("highLight");
 
@@ -170,6 +183,7 @@ public class TagsViewController {
 						executor.shutdown();
 					}
 					
+				//Remove cards from list
 				} else {
 					tag.getStyleClass().remove("highLight");
 					

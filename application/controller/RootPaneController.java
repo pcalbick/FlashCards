@@ -1,5 +1,11 @@
 package application.controller;
 
+/*
+ * 
+ * Pretty sure unused and needs clean up
+ * 
+ */
+
 import application.model.CardsModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;

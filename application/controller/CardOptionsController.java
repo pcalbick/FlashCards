@@ -1,5 +1,11 @@
 package application.controller;
 
+/*
+ * 
+ * Stage used for the creation of a new card
+ * 
+ */
+
 import java.util.ArrayList;
 import java.util.List;
 
