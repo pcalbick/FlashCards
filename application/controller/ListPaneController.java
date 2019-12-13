@@ -192,62 +192,7 @@ public class ListPaneController {
 						pane.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 							@Override
 							public void handle(MouseEvent e) {
-								try {
-									//Show the card editor window
-									FXMLLoader loader = new FXMLLoader();
-									loader.setLocation(main.getClass().getResource("view/CardEditView.fxml"));
-									VBox view = (VBox) loader.load();
-									CardEditController controller = loader.getController();
-									
-									Label question = (Label) pane.getChildren().get(0);
-									Label answer = (Label) pane.getChildren().get(1);
-									int index = model.getCardIndex(question.getText(), answer.getText());
-									
-									Stage stage = new Stage();
-									
-									Scene scene = new Scene(view);
-									scene.getStylesheets().add(getClass().getClassLoader().getResource("application/application.css").toString());
-									
-									//Allow keyboard control of window created
-									scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-										@Override
-										public void handle(KeyEvent e) {
-											if(e.getCode().equals(KeyCode.ENTER)) {
-												if(!controller.getQuestion().isEmpty() && !controller.getAnswer().isEmpty()) {
-													for(String tag : controller.getTags()) {
-														if(!model.getObservableTags().contains(tag))
-															model.addTag(tag);
-													}
-													model.changeCard(controller.getQuestion(), controller.getAnswer(), controller.getTags(), index);
-													
-													controller.removeTags(controller.getTags(),false);
-													
-													BorderPane card = (BorderPane) container.getChildren().get(index);
-													Label question = (Label) card.getChildren().get(0);
-													Label answer = (Label) card.getChildren().get(1);
-													question.setText(model.getQuestion(index));
-													answer.setText(model.getAnswer(index));
-													stage.close();
-												} else {
-													controller.question.getStyleClass().remove("warning");
-													controller.answer.getStyleClass().remove("warning");
-													if(controller.question.getText().equals(""))
-														controller.question.getStyleClass().add("warning");
-													if(controller.answer.getText().equals(""))
-														controller.answer.getStyleClass().add("warning");
-												}
-											}
-										}
-									});
-									
-									stage.setScene(scene);
-									
-									controller.init(stage, model, index, pane, model.getCard(model.getCardIndex(question.getText(), answer.getText())));
-									
-									stage.showAndWait();
-								} catch(Exception ex) {
-									ex.printStackTrace();
-								}
+								handleCardClick(pane);
 							}
 						});
 						
@@ -339,4 +284,70 @@ public class ListPaneController {
 				testScroll.setVvalue(1.0);
 		});
 	}
+	
+	//Handle card click
+	public void handleCardClick(BorderPane pane) {
+		try {
+			//Show the card editor window
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(main.getClass().getResource("view/CardEditView.fxml"));
+			VBox view = (VBox) loader.load();
+			CardEditController controller = loader.getController();
+			
+			Label question = (Label) pane.getChildren().get(0);
+			Label answer = (Label) pane.getChildren().get(1);
+			int index = model.getCardIndex(question.getText(), answer.getText());
+			
+			Stage stage = new Stage();
+			
+			Scene scene = new Scene(view);
+			scene.getStylesheets().add(getClass().getClassLoader().getResource("application/application.css").toString());
+			
+			//Allow keyboard control of window created
+			scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+				@Override
+				public void handle(KeyEvent e) {
+					//Separated out key control
+					keyControl(stage,controller,e,index);
+				}
+			});
+			
+			stage.setScene(scene);
+			
+			controller.init(stage, model, index, pane, model.getCard(model.getCardIndex(question.getText(), answer.getText())));
+			
+			stage.showAndWait();
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	//Handle key control for created window
+	public void keyControl(Stage stage, CardEditController controller, KeyEvent e, int index) {
+		if(e.getCode().equals(KeyCode.ENTER)) {
+			if(!controller.getQuestion().isEmpty() && !controller.getAnswer().isEmpty()) {
+				for(String tag : controller.getTags()) {
+					if(!model.getObservableTags().contains(tag))
+						model.addTag(tag);
+				}
+				model.changeCard(controller.getQuestion(), controller.getAnswer(), controller.getTags(), index);
+				
+				controller.removeTags(controller.getTags(),false);
+				
+				BorderPane card = (BorderPane) container.getChildren().get(index);
+				Label question = (Label) card.getChildren().get(0);
+				Label answer = (Label) card.getChildren().get(1);
+				question.setText(model.getQuestion(index));
+				answer.setText(model.getAnswer(index));
+				stage.close();
+			} else {
+				controller.question.getStyleClass().remove("warning");
+				controller.answer.getStyleClass().remove("warning");
+				if(controller.question.getText().equals(""))
+					controller.question.getStyleClass().add("warning");
+				if(controller.answer.getText().equals(""))
+					controller.answer.getStyleClass().add("warning");
+			}
+		}
+	};
 }

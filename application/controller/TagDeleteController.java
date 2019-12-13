@@ -28,7 +28,7 @@ public class TagDeleteController {
 	private VBox container;
 	private GridPane item;
 	
-	//Delete tag from master list of tags and from all created cards
+	//Delete tag from master list of tags and tag from all created cards
 	public void handleYes() {
 		for(CardDataStructure c : model.getMaster()) {
 			for(int i=0; i<c.getTags().size(); i++) {

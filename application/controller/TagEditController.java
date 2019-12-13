@@ -2,7 +2,7 @@ package application.controller;
 
 /*
  * 
- * Changes the tag in the master list as well as on every created card
+ * Changes the tag in the master list as well 
  * 
  */
 
@@ -51,6 +51,7 @@ public class TagEditController {
 		}
 		tag.getStyleClass().add("warning");
 		/* NEEDS TO BE ASYNC?
+		 * would solve bug documented on main TODO
 		if(tag.getText() != oldTag) {
 			for(CardDataStructure c : model.getMaster()) {
 				for(int i=0; i<c.getTags().size(); i++) {
